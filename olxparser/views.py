@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.views.generic.edit import FormView
 from .models import Submarket, Post
 from .forms import IndexForm
+from django.views import generic
+
 
 # Create your views here.
-class IndexView(FormView):
+class IndexView(generic.FormView):
     model = Submarket
     form_class = IndexForm
     fields = ['submarketurl', 'email']
@@ -14,3 +15,6 @@ class IndexView(FormView):
     def form_valid(self, form):
         form.save()
         return super(IndexView, self).form_valid(form)
+
+class SubmarketView(generic.DetailView):
+    pass
