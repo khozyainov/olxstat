@@ -2,9 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <style>
+        #container {
+            min-width: 310px;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto
+        }
+    </style>
     <title>Title</title>
 </head>
 <body>
-
+<h3><a href="{{ submarket.submarketurl }}">{{ submarket.submarketurl }}</a></h3>
+<div id="hour_container"></div>
+<br>
+<br>
+<div id="weekday_container"></div>
 </body>
+<script>
+    Highcharts.chart('hour_container', {
+        title: {
+            text: 'Time popularity'
+        },
+
+        xAxis: {
+            categories: {{ hours_x }}
+        },
+        yAxis: {
+            title: {
+                text: 'Number of posts'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 0
+
+            }
+        },
+
+        series: [{
+            name: 'Posts',
+            data: {{ hours_y }}
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+
+
+    Highcharts.chart('weekday_container', {
+        title: {
+            text: 'Weekday popularity'
+        },
+
+        xAxis: {
+            categories: {% autoescape off %}{{ weekdays_x }}{% endautoescape %}
+        },
+        yAxis: {
+            title: {
+                text: 'Number of posts'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 0
+
+            }
+        },
+
+        series: [{
+            name: 'Posts',
+            data: {{ weekdays_y }}
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+</script>
 </html>

@@ -1,4 +1,3 @@
-from django.urls import reverse
 from django.core.mail import send_mail
 from .spyder import OlxSpyder
 from .models import Submarket

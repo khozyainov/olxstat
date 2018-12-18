@@ -1,8 +1,7 @@
 from django import forms
 
 from olxparser.models import Submarket
-from olxparser.spyder import OlxSpyder
-from .tasks import olx_stat_task, send_email_task, run_stat_task
+from .tasks import run_stat_task
 
 
 class IndexForm(forms.Form):
@@ -20,5 +19,4 @@ class IndexForm(forms.Form):
         submarket = Submarket.objects.create(**data)
         pk = submarket.pk
         url = data['submarketurl']
-        #olx_stat_task.delay(pk, url)
         run_stat_task.delay(pk, url)
