@@ -3,3 +3,4 @@
 tmp
 *.pyc
 *.rdb
+.DS_Store
