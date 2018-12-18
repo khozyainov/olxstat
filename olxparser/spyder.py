@@ -29,6 +29,17 @@ class OlxSpyder(Spider):
 
     def task_initial(self, grab, task):
         print('Start parse olx')
+        last_page = int(grab.xpath_text('//a[@data-cy="page-link-last"]/span'))
+        base_url = self.initial_urls[0]
+        if '&page=' in base_url:
+            base_url = re.sub('&page=\d*$', '', base_url)
+        print(last_page)
+        print(base_url)
+        for page in range(1, last_page+1):
+            yield Task('page', url=f'{base_url}&page={page}')
+
+    def task_page(self, grab, task):
+        print('Start parse olx')
         for elem in  grab.xpath_list('//a[@class="marginright5 link linkWithHash detailsLink"]'):
             yield Task('olxpost', url=elem.get('href'))
 
@@ -58,3 +69,9 @@ class OlxSpyder(Spider):
         datetime_str = f'{time} {day}-{month}-{year}'
         datetime_obj = datetime.datetime.strptime(datetime_str, '%H:%M %d-%m-%Y')
         return datetime_obj
+
+
+#if __name__ == '__main__':
+#    bot = OlxSpyder(thread_number=2)
+#    bot.add_url('https://www.olx.ua/rabota/nachalo-karery-studenty/?search%5Bfilter_enum_job_type%5D%5B0%5D=perm&search%5Boffer_seek%5D=seek&page=2')
+#   bot.run()

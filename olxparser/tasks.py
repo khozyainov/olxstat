@@ -12,7 +12,7 @@ def run_stat_task(pk, url):
 
 @app.task
 def olx_stat_task(pk, url):
-    bot = OlxSpyder(thread_number=2)
+    bot = OlxSpyder(thread_number=10)
     bot.add_submarketpk(pk)
     bot.add_url(url)
     bot.run()
