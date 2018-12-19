@@ -33,9 +33,14 @@ class OlxSpyder(Spider):
         base_url = self.initial_urls[0]
         if '&page=' in base_url:
             base_url = re.sub('&page=\d*$', '', base_url)
+        if base_url.endswith('/'):
+            base_url = base_url + '?page='
+        else:
+            base_url = base_url + '&page='
         print(last_page)
         print(base_url)
         for page in range(1, last_page+1):
+
             yield Task('page', url=f'{base_url}&page={page}')
 
     def task_page(self, grab, task):
